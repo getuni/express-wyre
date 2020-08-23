@@ -1,12 +1,12 @@
 # express-wyre
-[express](https://github.com/expressjs/express) middleware for hosting [**Wyre**](https://www.sendwyre.com/) verification using [**Plaid**](https://plaid.com).
+[express](https://github.com/expressjs/express) middleware for hosting [**Wyre**](https://www.wyre.com/) verification using [**Plaid**](https://plaid.com).
 
 ## 🚀 Installing
 
 Using [**yarn**](https://yarnpkg.com):
 
 ```bash
-yarn add express-sendwyre
+yarn add express-wyre
 ```
 
 ## ✍️ Usage
@@ -15,7 +15,7 @@ Once installed, insert the middleware into your existing [`express`](https://git
 
 ```javascript
 import express from "express";
-import { verify } from "express-sendwyre";
+import { verify } from "express-wyre";
 
 express()
   .use("/wyre/verify", verify({ env: "test" })) // sandbox mode
@@ -32,7 +32,7 @@ pass_good
 ```
 
 ### 🦮 Retrieving the Access Token
-The verification process served by [**Wyre**](https://www.sendwyre.com/) returns an [**access token**](https://docs.sendwyre.com/docs/authentication) which is used to enumerate your authenticated user, which can be returned back to the frontend by specifying a [base-64 encoded](https://github.com/mathiasbynens/base64) `redirect` URL query parameter:
+The verification process served by [**Wyre**](https://www.wyre.com/) returns an [**access token**](https://docs.wyre.com/docs/authentication) which is used to enumerate your authenticated user, which can be returned back to the frontend by specifying a [base-64 encoded](https://github.com/mathiasbynens/base64) `redirect` URL query parameter:
 
 ```javascript
 const addressToReturnTokenTo = "myapp://";
