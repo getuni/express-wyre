@@ -48,8 +48,8 @@ const verifyMiddleware = ({ ...options }) => async (req, res, next) => {
         onSuccess: function(result) {
           return post({ type: "plaid/result", publicToken: result.publicToken });
         },
-        onExit: function(err) {
-          return post({ type: "plaid/error", error: err.toString() });
+        onExit: function() {
+          return post({ type: "plaid/exit" });
         }
       });
     </script>
