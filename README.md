@@ -24,6 +24,8 @@ express()
 
 In this example, your clients may then make [`HTTP GET`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) requests to [`http://localhost:3000/wyre/verify`](http://localhost:3000/wyre/verify).
 
+In sandbox mode, you can login to a banking networking using the credentials `user_good`, `pass_good`.
+
 ### 🦮 Retrieving the Access Token
 The verification process served by [**Wyre**](https://www.sendwyre.com/) returns an [**access token**](https://docs.sendwyre.com/docs/authentication) which is used to enumerate your authenticated user, which can be returned back to the frontend by specifying a [base-64 encoded](https://github.com/mathiasbynens/base64) `redirect` URL query parameter:
 
