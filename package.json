@@ -1,5 +1,5 @@
 {
-  "name": "express-sendwyre",
+  "name": "express-wyre",
   "version": "0.0.2-alpha.0",
   "description": "💰 Express middleware for hosting Wyre verification. https://www.sendwyre.com/",
   "main": "dist",
