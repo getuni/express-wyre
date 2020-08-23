@@ -19,46 +19,46 @@ const maybeRedirect = (redirect) => {
 
 const verifyMiddleware = ({ ...options }) => async (req, res, next) => {
   try {
-    const { query } = req;
     const html = `
 <!DOCTYPE html>
   <html>
   <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-  <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
-  <script src="https://verify.sendwyre.com/js/pm-widget-init.js"></script>
-  <script type="text/javascript">
-    var redirect = {{{redirect}}}; 
-    function shouldRedirect(results) {
-      var q = redirect.includes("?") ? "&" : "?";
-      window.location.href = redirect + q + results;
-    }
-    var handler = new WyrePmWidget({
-      env: "{{{env}}}",
-      onLoad: function() {
-        handler.open();
-      },
-      onSuccess: function(result) {
-        if (redirect) {
-          shouldRedirect("wyreToken=" + btoa(result.publicToken));
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <script src="https://verify.sendwyre.com/js/pm-widget-init.js"></script>
+    <script type="text/javascript">
+      function post(data) {
+        /* react-native */
+        if (window.ReactNativeWebView) {
+          return window.ReactNativeWebView.postMessage(JSON.stringify(data));
         }
-      },
-      onExit: function(err) {
-        if (redirect) {
-          shouldRedirect("wyreError=" + btoa(err.toString()));
-        }
+        /* browser */
+        return top.postMessage(
+          JSON.stringify(data),
+          (window.location != window.parent.location) ? document.referrer: document.location,
+        );
       }
-    });
+  
+      var handler = new WyrePmWidget({
+        env: "{{{env}}}",
+        onLoad: function() {
+          handler.open();
+        },
+        onSuccess: function(result) {
+          return post({ type: "plaid/result", publicToken: result.publicToken });
+        },
+        onExit: function(err) {
+          return post({ type: "plaid/error", error: err.toString() });
+        }
+      });
     </script>
   </head>
   <body></body>
 </html>
       `.trim();
     return res.status(OK).send(
-      compile(html)({
-        ...options,
-        redirect: maybeRedirect(query.redirect),
-      })
+      compile(html)({ ...options })
     );
   } catch (e) {
     return next(e);
