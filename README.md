@@ -1,5 +1,5 @@
-# express-sendwyre
-[express](https://github.com/expressjs/express) middleware for hosting [**Wyre**](https://www.sendwyre.com/) verification.
+# express-wyre
+[express](https://github.com/expressjs/express) middleware for hosting [**Wyre**](https://www.sendwyre.com/) verification using [**Plaid**](https://plaid.com).
 
 ## 🚀 Installing
 
