@@ -29,6 +29,11 @@ const verifyMiddleware = ({ ...options }) => async (req, res, next) => {
     <script src="https://verify.sendwyre.com/js/pm-widget-init.js"></script>
     <script type="text/javascript">
       function post(data) {
+
+        if ("{{{env}}}" === "test") {
+          console.log(data);
+        }
+
         /* react-native */
         if (window.ReactNativeWebView) {
           return window.ReactNativeWebView.postMessage(JSON.stringify(data));
