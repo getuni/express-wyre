@@ -4,18 +4,7 @@ import { compile } from "handlebars";
 import { decode as atob } from "base-64";
 import { typeCheck } from "type-check";
 
-const defaultOptions = Object.freeze({
-  env: "test",
-});
-
-const maybeRedirect = (redirect) => {
-  if (redirect === undefined) {
-    return "null";
-  } else if (typeCheck("String", redirect)) {
-    return `"${atob(redirect)}"`;
-  }
-  throw new Error(`Encountered invalid redirect.`);
-};
+const defaultOptions = Object.freeze({ env: "test" });
 
 const verifyMiddleware = ({ ...options }) => async (req, res, next) => {
   try {
@@ -70,5 +59,14 @@ const verifyMiddleware = ({ ...options }) => async (req, res, next) => {
   }
 };
 
-export const verify = (options = defaultOptions) =>
-  express().get("/", verifyMiddleware({ ...defaultOptions, ...options }));
+export const wyre = (options) => {
+  if (options === undefined) {
+    throw new Error(`You've forgotten to provide the options argument for your call to wyre(). To replicate older behaviour, you can use wyre({ env: \"test\" }).`);
+  }
+  // XXX: Force the caller to explicitly define the environment.
+  if (!typeCheck("{env:String,...}", options)) {
+    throw new Error(`Expected {env:String,...} options, encountered ${options}.`);
+  }
+  return express()
+    .get("/verify", verifyMiddleware({ ...defaultOptions, ...options }));
+};

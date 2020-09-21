@@ -1,6 +1,6 @@
 import express from "express";
-import { verify } from "express-wyre";
+import { wyre } from "express-wyre";
 
 express()
-  .use("/wyre/verify", verify({ env: "test" })) // sandbox mode
+  .use("/wyre", wyre({ env: "test" }))
   .listen(3000, () => null);

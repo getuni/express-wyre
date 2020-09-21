@@ -1,6 +1,11 @@
 # express-wyre
 [express](https://github.com/expressjs/express) middleware for hosting [**Wyre**](https://www.wyre.com/) verification using [**Plaid**](https://plaid.com).
 
+### Migration Notes
+  - Migrating to `>=0.1.0` has deprecated the `{ verify }` export from `express-wyre` in favour of a dedicated `{ wyre }` export, which nests all dependent middleware.
+    - This means you'll need to replace existing implementations of `.use("wyre/verify", verify())` with `.use("/wyre", wyre({ env: "test" }))`, which in turn generates the `wyre/verify` route.
+    - In addition, callers are **required** to define their environment configuration upon invocation, whereas in the past it implicitly defaulted to `{ env: "test" }`.
+
 ## 🚀 Installing
 
 Using [**yarn**](https://yarnpkg.com):
